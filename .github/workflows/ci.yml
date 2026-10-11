@@ -21,10 +21,10 @@ jobs:
 
       - name: Configure kubeconfig
         env:
-          KUBECONFIG_CONTENT: ${{ secrets.KUBECONFIG }}
+          KUBECONF_CONTENT: ${{ secrets.KUBECONF }}
         run: |
           mkdir -p "$HOME/.kube"
-          printf '%s' "$KUBECONFIG_CONTENT" > "$HOME/.kube/config"
+          printf '%s' "$KUBECONF_CONTENT" > "$HOME/.kube/config"
           chmod 600 "$HOME/.kube/config"
       - name: Diff Helm release
         run: |
