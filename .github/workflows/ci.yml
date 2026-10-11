@@ -24,7 +24,7 @@ jobs:
           chmod 600 "$HOME/.kube/config"
       - name: Diff Helm release
         run: |
-            helm diff upgrade istio/istiod istiod \
+            helm diff upgrade istiod istiod \
               --repo https://istio-release.storage.googleapis.com/charts \
               # --version "1.30.5" \
               --namespace istio \
