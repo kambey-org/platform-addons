@@ -28,9 +28,11 @@ jobs:
           chmod 600 "$HOME/.kube/config"
       - name: Diff Helm release
         run: |
-          helm upgrade --install my-app ./charts/my-app \
-            --namespace dev \
-            --create-namespace \
-            --wait \
-            --timeout 5m
+            helm diff istio/istiod istiod \
+              --repo https://istio-release.storage.googleapis.com/charts \
+              # --version "1.30.5" \
+              --namespace istio \
+              --create-namespace \
+              # --values istio/values.yaml \
+              --wait
       
