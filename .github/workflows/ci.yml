@@ -14,10 +14,6 @@ jobs:
     environment: prod
     steps:
       - uses: actions/checkout@v4
-      - name: Install Helm
-        uses: azure/setup-helm@v4
-        with:
-          version: v3.17.3
 
       - name: Configure kubeconfig
         env:
