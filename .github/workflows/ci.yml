@@ -10,7 +10,7 @@ on:
 
 jobs:
   istio-diff:
-    runs-on: gspyrka-ubuntu
+    runs-on: self-hosted
     environment: prod
     steps:
       - uses: actions/checkout@v4
