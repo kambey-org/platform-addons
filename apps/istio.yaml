@@ -9,8 +9,8 @@ spec:
 
   sources:
     - repoURL: https://istio-release.storage.googleapis.com/charts
-      chart:  istio/istiod
-      targetRevision: 1.30.50
+      chart:  istiod
+      targetRevision: 1.30.5
       helm:
         releaseName: istio
         valueFiles:
