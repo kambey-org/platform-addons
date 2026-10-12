@@ -5,6 +5,6 @@ metadata:
   namespace: metallb
 spec:
   ipAddressPools:
-  - ip-pool
+  - mainpool
   interfaces:
   - ens3
