@@ -30,7 +30,7 @@ jobs:
               --repo https://istio-release.storage.googleapis.com/charts \
               --namespace istio \
               --values charts/istio/values.yaml \
-              -- allow-unreleased
+              --allow-unreleased
   istio-deploy:
     runs-on: self-hosted
     needs: istio-diff
