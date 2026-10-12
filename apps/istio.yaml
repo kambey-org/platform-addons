@@ -16,7 +16,7 @@ spec:
         valueFiles:
           - $values/components/istio/values.yaml
 
-    - repoURL: https://github.com/USER/platform-config.git
+    - repoURL: https://github.com/kambey-org/platform-addons
       targetRevision: main
       ref: values
 
