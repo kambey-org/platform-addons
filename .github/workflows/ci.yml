@@ -7,11 +7,12 @@ on:
     branches: [ "main" ]
 
   workflow_dispatch:
-
+env:
+  ISTIO_VERSION: 1.30.5
 jobs:
   istio-diff:
     runs-on: self-hosted
-    environment: prod
+    environment: dev
     steps:
       - uses: actions/checkout@v4
 
@@ -25,10 +26,30 @@ jobs:
       - name: Diff Helm release
         run: |
             helm diff upgrade istiod istiod \
+              --version "$ISTIO_VERSION" \
               --repo https://istio-release.storage.googleapis.com/charts \
-              # --version "1.30.5" \
               --namespace istio \
-              --create-namespace \
-              # --values istio/values.yaml \
-              --wait
-      
+              --values charts/istio/values.yaml \
+              -- allow-unreleased
+  istio-deploy:
+    runs-on: self-hosted
+    environment: prod
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure kubeconfig
+        env:
+          KUBECONF_CONTENT: ${{ secrets.KUBECONF }}
+        run: |
+          mkdir -p "$HOME/.kube"
+          printf '%s' "$KUBECONF_CONTENT" > "$HOME/.kube/config"
+          chmod 600 "$HOME/.kube/config"
+      - name: Deploy Helm release
+        run: |
+          helm upgrade --install istiod istiod \
+            --repo https://istio-release.storage.googleapis.com/charts  \
+            --version "$ISTIO_VERSION" \
+            --namespace istio \
+            --create-namespace \
+            --values charts/istio/values.yaml \
+            --wait
