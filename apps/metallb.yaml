@@ -20,6 +20,10 @@ spec:
       targetRevision: main
       ref: values
 
+    - repoURL: https://github.com/kambey-org/platform-addons
+      targetRevision: main
+      ref: components/metallb/manifests
+
   destination:
     server: https://kubernetes.default.svc
     namespace: metallb
