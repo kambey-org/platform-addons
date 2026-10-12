@@ -51,7 +51,7 @@ jobs:
           helm upgrade --install istiod istiod \
             --repo https://istio-release.storage.googleapis.com/charts  \
             --version "${{ env.ISTIO_VERSION }}" \
-            --namespace istio \
+            --namespace istio-system \
             --create-namespace \
             --values charts/istio/values.yaml \
             --wait
