@@ -26,13 +26,15 @@ jobs:
       - name: Diff Helm release
         run: |
             helm diff upgrade istiod istiod \
-              --version "$ISTIO_VERSION" \
+              --version "${{ env.ISTIO_VERSION }}" \
               --repo https://istio-release.storage.googleapis.com/charts \
               --namespace istio \
               --values charts/istio/values.yaml \
               -- allow-unreleased
   istio-deploy:
     runs-on: self-hosted
+    needs: istio-diff
+    if: github.ref == 'refs/heads/main'
     environment: prod
     steps:
       - uses: actions/checkout@v4
@@ -48,7 +50,7 @@ jobs:
         run: |
           helm upgrade --install istiod istiod \
             --repo https://istio-release.storage.googleapis.com/charts  \
-            --version "$ISTIO_VERSION" \
+            --version "${{ env.ISTIO_VERSION }}" \
             --namespace istio \
             --create-namespace \
             --values charts/istio/values.yaml \
