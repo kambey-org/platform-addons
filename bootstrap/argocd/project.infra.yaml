@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: infra
+  namespace: argo-cd
+spec:
+  description: Platform components managed by Argo CD
+
+  sourceRepos:
+    - https://github.com/kambey-org/platform-sample.git
+
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: "*"
+
+  # Pozwól na tworzenie standardowych zasobów namespaced.
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
