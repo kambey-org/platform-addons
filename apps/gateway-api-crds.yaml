@@ -5,7 +5,7 @@ metadata:
   name: gateway-api-crds
   namespace: argo-cd
 spec:
-  project: default
+  project: infra
 
   source:
     repoURL: https://github.com/kubernetes-sigs/gateway-api.git
