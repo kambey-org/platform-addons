@@ -11,7 +11,8 @@ spec:
     - https://postfinance.github.io/kubelet-csr-approver
     - https://istio-release.storage.googleapis.com/charts
     - https://metallb.github.io/metallb
-
+    - https://github.com/kubernetes-sigs/gateway-api.git
+    
   destinations:
     - server: https://kubernetes.default.svc
       namespace: "*"
