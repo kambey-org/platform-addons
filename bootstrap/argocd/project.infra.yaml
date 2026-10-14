@@ -11,15 +11,14 @@ spec:
     - https://postfinance.github.io/kubelet-csr-approver
     - https://istio-release.storage.googleapis.com/charts
     - https://metallb.github.io/metallb
-    
+
   destinations:
     - server: https://kubernetes.default.svc
       namespace: "*"
 
-  # Pozwól na tworzenie standardowych zasobów namespaced.
   clusterResourceWhitelist:
-    - group: ""
-      kind: Namespace
+    - group: "*"
+      kind: "*"
 
   namespaceResourceWhitelist:
     - group: "*"
