@@ -17,10 +17,10 @@ spec:
           - $values/components/istio/values.yaml
 
     - repoURL: https://istio-release.storage.googleapis.com/charts
-      chart:  istiod-ingressgateway
+      chart:  istio-ingressgateway
       targetRevision: 1.30.5
       helm:
-        releaseName: istio
+        releaseName: istio-ingressgateway
         valueFiles:
           - $values/components/istio/gateway.values.yaml
 
