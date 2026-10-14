@@ -16,6 +16,14 @@ spec:
         valueFiles:
           - $values/components/istio/values.yaml
 
+    - repoURL: https://istio-release.storage.googleapis.com/charts
+      chart:  istiod-ingressgateway
+      targetRevision: 1.30.5
+      helm:
+        releaseName: istio
+        valueFiles:
+          - $values/components/istio/gateway.values.yaml
+
     - repoURL: https://github.com/kambey-org/platform-addons
       targetRevision: main
       ref: values
