@@ -13,6 +13,7 @@ spec:
     - https://metallb.github.io/metallb
     - https://github.com/kubernetes-sigs/gateway-api.git
     - https://kyverno.github.io/kyverno/
+    - https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
   destinations:
     - server: https://kubernetes.default.svc
       namespace: "*"
