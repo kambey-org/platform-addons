@@ -14,6 +14,7 @@ spec:
     - https://github.com/kubernetes-sigs/gateway-api.git
     - https://kyverno.github.io/kyverno/
     - https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+    - https://prometheus-community.github.io/helm-charts
   destinations:
     - server: https://kubernetes.default.svc
       namespace: "*"
