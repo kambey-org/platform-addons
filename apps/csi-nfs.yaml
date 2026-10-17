@@ -1,0 +1,32 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: csi-driver-nfs
+  namespace: argo-cd
+spec:
+  project: infra
+
+  sources:
+    - repoURL: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+      chart:  csi-driver-nfs
+      targetRevision: 4.13.5
+      helm:
+        releaseName: csi-driver-nfs
+        valueFiles:
+          - $values/components/csi-driver-nfs/values.yaml
+
+    - repoURL: https://github.com/kambey-org/platform-addons
+      targetRevision: main
+      ref: values
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
