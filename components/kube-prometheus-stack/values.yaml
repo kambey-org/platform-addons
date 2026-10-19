@@ -6,6 +6,7 @@ prometheus:
         - prometheus.lab.internal
       parentRefs:
         - name: internal-gateway
+          sectionName: http-8080
       timeouts:
         request: 120s
         backendRequest: 60s
@@ -17,6 +18,7 @@ alertmanager:
         - alertmanager.lab.internal
       parentRefs:
         - name: internal-gateway
+          sectionName: http-8080
       timeouts:
         request: 120s
         backendRequest: 60s
