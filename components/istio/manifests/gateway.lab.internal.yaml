@@ -13,10 +13,3 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-    - name: http-8080
-      hostname: "*.lab.internal"
-      port: 8080
-      protocol: HTTP
-      allowedRoutes:
-        namespaces:
-          from: All
