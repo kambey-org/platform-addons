@@ -20,9 +20,9 @@ spec:
       targetRevision: main
       ref: values
 
-    # - repoURL: https://github.com/kambey-org/platform-addons
-    #   targetRevision: main
-    #   path: components/kube-prometheus-stack/manifests
+    - repoURL: https://github.com/kambey-org/platform-addons
+      targetRevision: main
+      path: components/kube-prometheus-stack/manifests
 
   destination:
     server: https://kubernetes.default.svc
