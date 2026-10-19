@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: grafana
+  namespace: kube-prometheus-stack
+spec:
+  hosts:
+    - grafana.lab.internal
+  gateways:
+    - istio-system/internal-gateway   # <namespace>/<nazwa Twojego Gateway>
+  http:
+    - route:
+        - destination:
+            host: kube-prometheus-stack-grafana.kube-prometheus-stack.svc.cluster.local
+            port:
+              number: 80

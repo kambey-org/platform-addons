@@ -1,0 +1,22 @@
+prometheus:
+  route:
+    main:
+      enabled: true
+      hostnames: 
+        - prometheus.lab.internal
+      parentRefs:
+        - name: internal-gateway
+      timeouts:
+        request: 120s
+        backendRequest: 60s
+alertmanager:
+  route:
+    main:
+      enabled: true
+      hostnames: 
+        - alertmanager.lab.internal
+      parentRefs:
+        - name: internal-gateway
+      timeouts:
+        request: 120s
+        backendRequest: 60s
