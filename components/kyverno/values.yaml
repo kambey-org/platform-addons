@@ -1,0 +1,119 @@
+features:
+    policyExceptions:
+        enabled: "true"
+        namespace: "kyverno"
+    backgroundScan:
+        backgroundScanInterval: 24h
+    logging:
+        format: json
+    admissionReports:
+        enabled: true
+grafana:
+    enabled: true
+backgroundController:
+    replicas: 1
+    extraArgs:
+        allowedResults: "fail"
+    serviceMonitor:
+        enabled: true
+cleanupController:
+    replicas: 1
+    serviceMonitor:
+        enabled: true
+reportsController:
+    replicas: 1
+
+    serviceMonitor:
+        enabled: true
+    extraArgs:
+        allowedResults: "fail"
+admissionController:
+    replicas: 1
+    container:
+        extraArgs:
+            allowedResults: "fail"
+    serviceMonitor:
+        enabled: true
+config:
+    backgroundScanInterval: 24h
+    webhooks:
+    - namespaceSelector:
+        matchExpressions:
+          - key: kubernetes.io/metadata.name
+            operator: NotIn
+            values:
+            - kube-system
+            - kube-node-lease
+            - kube-public
+            - kyverno
+            - istio-system
+            - metallb
+    resourceFiltersExcludeNamespaces:
+    - kube-system
+    - kube-node-lease
+    - kube-public
+    - kyverno
+    - istio-system
+    - metallb
+commonController:
+    rbac:
+        clusterRole:
+            extraResources:
+              - apiGroups:
+                  - ""
+                resources:
+                  - nodes
+                  - pods
+                  - secrets
+                  - configmaps
+                  - serviceaccounts
+                verbs:
+                  - list
+                  - get
+                  - watch
+              - apiGroups:
+                  - "apps"
+                resources:
+                  - daemonsets
+                  - deployments
+                  - statefulsets
+                verbs:
+                  - list
+                  - get
+                  - watch
+              - apiGroups:
+                  - "batch"
+                resources:
+                  - cronjobs
+                  - jobs
+                verbs:
+                  - list
+                  - get
+                  - watch
+              - apiGroups:
+                  - "policies.kyverno.io"
+                resources:
+                  - ValidatingPolicy
+                verbs:
+                  - list
+                  - get
+                  - watch
+              - apiGroups:
+                  - "kyverno.io"
+                resources:
+                  - ClusterPolicy
+                verbs:
+                  - list
+                  - get
+                  - watch
+              - apiGroups:
+                  - "rbac.authorization.k8s.io"
+                resources:
+                  - clusterroles
+                  - clusterrolebindings
+                  - roles
+                  - rolebindings
+                verbs:
+                  - list
+                  - get
+                  - watch
