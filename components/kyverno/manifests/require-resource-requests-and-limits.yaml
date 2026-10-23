@@ -1,0 +1,34 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: require-resources-for-deployments
+spec:
+  validationActions:
+  - Deny
+  evaluation:
+    background:
+      enabled: true
+  matchConstraints:
+    resourceRules:
+    - apiGroups:
+      - ""
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - pods
+  validations:
+  - expression: "object.spec.containers.all(c, c.?resources.?limits.?memory.hasValue())"
+    message: "Every container must define memory limits"
+    messageExpression: >-
+      "Every container must define memory limits (" + (has(object.metadata.name) ? object.metadata.name : "unknown") + ") | KSV-0018 "
+  - expression: '!object.spec.containers.exists(c, c.?resources.?limits.?cpu.hasValue())'
+    message: "Define CPU limits for containers is forbidden"
+    messageExpression: >-
+      "Definiowanie limitów CPU dla kontenerów jest zabronione. (" + (has(object.metadata.name) ? object.metadata.name : "unknown") + ")"
+  - expression: "object.spec.containers.all(c, c.?resources.?requests.?cpu.hasValue())"
+    message: "Every container must define cpu requests"
+    messageExpression: >-
+      "Every container must define cpu requests (" + (has(object.metadata.name) ? object.metadata.name : "unknown") + ") | KSV-0015 "

@@ -1,0 +1,39 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: restrict-seccomp
+  annotations:
+    policies.kyverno.io/title: Restrict Seccomp
+    policies.kyverno.io/category: Pod Security Standards (Baseline)
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/subject: Pod
+    kyverno.io/kyverno-version: 1.6.0
+    kyverno.io/kubernetes-version: 1.22-1.23
+    policies.kyverno.io/description: The seccomp profile must not be explicitly set to Unconfined. This policy,  requiring Kubernetes v1.19 or later, ensures that seccomp is unset or  set to `RuntimeDefault` or `Localhost`.
+spec:
+  validationActions:
+  - Deny
+  evaluation:
+    background:
+      enabled: true
+  matchConstraints:
+    resourceRules:
+    - apiGroups:
+      - ""
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - pods
+  variables:
+  - name: allContainers
+    expression: "(object.spec.containers + (has(object.spec.initContainers) ? object.spec.initContainers : []) + (has(object.spec.ephemeralContainers) ? object.spec.ephemeralContainers : []))"
+  - name: allowedProfileTypes
+    expression: "['RuntimeDefault', 'Localhost']"
+  validations:
+  - expression: (object.spec.?securityContext.?seccompProfile.?type.orValue('Localhost')  in variables.allowedProfileTypes) &&  (variables.allContainers.all(container,  container.?securityContext.?seccompProfile.?type.orValue('Localhost')  in variables.allowedProfileTypes))
+    message: Use of custom Seccomp profiles is disallowed. The field spec.containers[*].securityContext.seccompProfile.type must be unset or set to `RuntimeDefault` or `Localhost`.
+    messageExpression: >-
+      "Use of custom Seccomp profiles is disallowed. The fields spec.securityContext.seccompProfile.type, spec.containers[*].securityContext.seccompProfile.type, spec.initContainers[*].securityContext.seccompProfile.type, and spec.ephemeralContainers[*].securityContext.seccompProfile.type must be unset or set to `RuntimeDefault` or `Localhost` (" + object.metadata.name + ") | KSV-0104,K SV-0030  "

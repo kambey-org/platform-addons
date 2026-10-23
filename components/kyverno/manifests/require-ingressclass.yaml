@@ -1,0 +1,24 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: require-ingressclassname
+spec:
+  validationActions:
+  - Deny
+  evaluation:
+    background:
+      enabled: true
+  matchConstraints:
+    resourceRules:
+    - apiGroups:
+      - "networking.k8s.io"
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - ingresses
+  validations:
+  - expression: "has(object.spec) || has(object.spec.ingressClassName) || object.spec.ingressClassName == 'haproxy'"
+    message: Ingress must set spec.ingressClassName='haproxy'
